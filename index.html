@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SICJL - Sistema de Catalogação de Jogos e Livros</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+<header style="background: linear-gradient(90deg, #0077ff, #7a00cc); color: white; padding: 20px 0; text-align: center; font-family: 'Roboto', sans-serif;">
+  <h1 style="margin: 0; font-weight: 700;">SICJL - Sistema de Catalogação de Jogos e Livros</h1>
+  <p style="margin: 5px 0 0;">Laboratório de Estudos e Vivências Lúdicas - LEVEL</p>
+  <button id="btn-login-header" style="position: absolute; right: 20px; top: 25px; background: #ff6600; border: none; color: white; font-weight: 700; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Login</button>
+  <button id="btn-logout-header" style="display:none; position: absolute; right: 20px; top: 25px; background: #cc0000; border: none; color: white; font-weight: 700; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Logout</button>
+</header>
+
+<nav style="background-color: #ff6600; padding: 10px 20px; font-family: 'Roboto', sans-serif;">
+  <a href="#" onclick="showSection('home'); event.preventDefault();" class="active" style="color: white; font-weight: 700; margin-right: 20px; padding: 8px 12px; background-color: #7a00cc; text-decoration: none; border-radius: 4px;">Home</a>
+  <a href="#" onclick="showSection('acervo'); event.preventDefault();" style="color: white; font-weight: 700; margin-right: 20px; text-decoration: none;">Acervo</a>
+  <a href="#" onclick="showSection('fluxos'); event.preventDefault();" style="color: white; font-weight: 700; text-decoration: none;">Fluxos</a>
+</nav>
+
+<main style="padding: 20px; font-family: 'Roboto', sans-serif;">
+
+  <section id="home">
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+      <img src="imagens/logo-level.png" alt="Logo Level" width="100" />
+      <h2>Bem-vindo ao <strong>SICJL</strong></h2>
+      <p>Gerencie facilmente o acervo de jogos e livros do <strong>LEVEL</strong>.</p>
+    </div>
+  </section>
+
+  <section id="acervo" style="display:none;">
+    <h2>Acervo de Jogos, Livros, Quadrinhos e Consoles</h2>
+
+    <div class="abas-acervo">
+      <button class="aba-btn active" onclick="mostrarAbaAcervo('jogos')">Jogos</button>
+      <button class="aba-btn" onclick="mostrarAbaAcervo('livros')">Livros</button>
+      <button class="aba-btn" onclick="mostrarAbaAcervo('quadrinhos')">Quadrinhos</button>
+      <button class="aba-btn" onclick="mostrarAbaAcervo('consoles')">Consoles</button>
+    </div>
+
+    <!-- Formulário só visível para admin -->
+    <form id="form-cadastro" style="display:none; margin-top: 20px;">
+      <div id="form-jogos">
+        <label>Título:</label>
+        <input type="text" id="titulo" />
+
+        <label>Código:</label>
+        <input type="text" id="codigo" />
+
+        <label>Quantidade de Jogadores (ex: 1-4):</label>
+        <input type="text" id="jogadores" placeholder="Ex: 1-4" />
+
+        <label>Doador:</label>
+        <input type="text" id="doador" />
+
+        <label>Descrição:</label>
+        <textarea id="descricao"></textarea>
+
+        <label>Observação:</label>
+        <textarea id="observacao"></textarea>
+      </div>
+
+      <div id="form-livros" style="display:none;">
+        <label>Título:</label>
+        <input type="text" id="titulo-livro" />
+
+        <label>Código:</label>
+        <input type="text" id="codigo-livro" />
+
+        <label>Doador:</label>
+        <input type="text" id="doador-livro" />
+
+        <label>Descrição:</label>
+        <textarea id="descricao-livro"></textarea>
+
+        <label>Observação:</label>
+        <textarea id="observacao-livro"></textarea>
+      </div>
+
+      <div id="form-quadrinhos" style="display:none;">
+        <label>Nome:</label>
+        <input type="text" id="nome-quad" />
+
+        <label>Possui várias edições?</label>
+        <select id="varias-edicoes-quad">
+          <option value="Sim">Sim</option>
+          <option value="Não">Não</option>
+        </select>
+
+        <label>Edições:</label>
+        <input type="text" id="edicoes-quad" placeholder="Número de edições" />
+
+        <label>Código:</label>
+        <input type="text" id="codigo-quad" />
+
+        <label>Doador:</label>
+        <input type="text" id="doador-quad" />
+
+        <label>Observação:</label>
+        <textarea id="observacao-quad"></textarea>
+      </div>
+
+      <div id="form-consoles" style="display:none;">
+        <label>Tipo:</label>
+        <input type="text" id="tipo-console" />
+
+        <label>Código:</label>
+        <input type="text" id="codigo-console" />
+
+        <label>Doador:</label>
+        <input type="text" id="doador-console" />
+
+        <label>Observação:</label>
+        <textarea id="observacao-console"></textarea>
+      </div>
+
+      <button type="submit" style="margin-top: 15px;">Salvar</button>
+    </form>
+
+    <div style="margin-top: 30px;">
+      <h3>Itens Cadastrados</h3>
+
+      <div id="lista-jogos" class="lista-acervo"></div>
+      <div id="lista-livros" class="lista-acervo" style="display:none;"></div>
+      <div id="lista-quadrinhos" class="lista-acervo" style="display:none;"></div>
+      <div id="lista-consoles" class="lista-acervo" style="display:none;"></div>
+    </div>
+  </section>
+
+  <section id="fluxos" style="display:none;">
+    <h2>Registro de Fluxos Mensais</h2>
+
+    <!-- Formulário só visível para admin -->
+    <form id="form-fluxo" style="display:none;">
+      <label>Data:</label>
+      <input type="date" id="data-fluxo" required />
+      <label>Descrição:</label>
+      <textarea id="desc-fluxo"></textarea> <!-- Removida obrigatoriedade -->
+      <label>Total de Visitantes do Mês:</label>
+      <input type="number" id="total-visitantes" min="0" />
+      <button type="submit">Registrar</button>
+    </form>
+
+    <h3>Fluxos Registrados</h3>
+    <table id="tabela-fluxos" border="1" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrição</th>
+          <th>Total Visitantes</th>
+          <th style="display:none;" id="acoes-fluxos-header">Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Modal Login -->
+  <div id="modal-login" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="close-login" class="close">&times;</span>
+      <h2>Login Administrador</h2>
+      <form id="form-login">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" required />
+        <label for="password">Senha:</label>
+        <input type="password" id="password" required />
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-error" style="color:red; display:none; margin-top:10px;">Usuário ou senha inválidos.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer style="background-color: #0077ff; color: white; text-align: center; padding: 10px 0; font-family: 'Roboto', sans-serif;">
+  © 2025 LEVEL - Todos os direitos reservados
+</footer>
+</body>
+</html>
